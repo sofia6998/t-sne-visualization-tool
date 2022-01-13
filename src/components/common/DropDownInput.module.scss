@@ -1,0 +1,95 @@
+@import "../../helpers/mixins.scss";
+
+.dropDownWrapper {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.dropDownContainer {
+  @include inputField;
+  width: 100%;
+
+  &.smaller {
+    height: 20px;
+    padding: 0 0.5rem;
+  }
+
+  &.disabled {
+    cursor: not-allowed !important;
+    opacity: 0.8;
+
+    * {
+      cursor: not-allowed !important;
+      color: var(--grey-font) !important;
+    }
+  }
+}
+
+.dropDownIcon {
+  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+
+  &.rotateIcon {
+    transform: rotate(180deg);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.dropDownList {
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  display: block;
+  padding: 1.25rem 0;
+  box-sizing: border-box;
+  margin-top: 1.5rem;
+  position: absolute;
+  top: 40px;
+  min-width: 131px;
+  left: 0;
+  z-index: 2;
+
+  &.smaller {
+    top: 22px;
+    margin: 0;
+  }
+
+  &.hiddenList {
+    display: none;
+  }
+
+  .listItem {
+    width: 100%;
+    height: 1.375rem;
+    box-sizing: border-box;
+    border-left: 2px solid var(--white);
+    justify-content: flex-start;
+    color: var(--font);
+    font-size: 0.875rem;
+    line-height: 1.2em;
+    padding-left: 18px;
+    margin-bottom: 1.25rem;
+    user-select: none;
+
+    &:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.dropDownLabel {
+  @include fieldLabel;
+}
+
+.errorText {
+  @include fiedlErrorText;
+}

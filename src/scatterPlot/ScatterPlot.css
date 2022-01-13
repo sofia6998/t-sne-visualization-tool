@@ -1,0 +1,7 @@
+.dot text {
+    display: none;
+}
+
+.dot:hover text {
+    display: block;
+}

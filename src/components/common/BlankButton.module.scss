@@ -1,0 +1,18 @@
+.button {
+  outline: none;
+  background: none;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+  color: var(--font);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: unset;
+
+  &:disabled,
+  .disabled {
+    cursor: not-allowed;
+  }
+}
