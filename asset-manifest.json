@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/t-sne-visualization-tool/static/css/main.443465a8.chunk.css",
+    "main.js": "/t-sne-visualization-tool/static/js/main.1acc2943.chunk.js",
+    "main.js.map": "/t-sne-visualization-tool/static/js/main.1acc2943.chunk.js.map",
+    "runtime-main.js": "/t-sne-visualization-tool/static/js/runtime-main.7a50b341.js",
+    "runtime-main.js.map": "/t-sne-visualization-tool/static/js/runtime-main.7a50b341.js.map",
+    "static/js/2.670b2d4a.chunk.js": "/t-sne-visualization-tool/static/js/2.670b2d4a.chunk.js",
+    "static/js/2.670b2d4a.chunk.js.map": "/t-sne-visualization-tool/static/js/2.670b2d4a.chunk.js.map",
+    "static/js/3.80e0ef1b.chunk.js": "/t-sne-visualization-tool/static/js/3.80e0ef1b.chunk.js",
+    "static/js/3.80e0ef1b.chunk.js.map": "/t-sne-visualization-tool/static/js/3.80e0ef1b.chunk.js.map",
+    "index.html": "/t-sne-visualization-tool/index.html",
+    "static/css/main.443465a8.chunk.css.map": "/t-sne-visualization-tool/static/css/main.443465a8.chunk.css.map",
+    "static/js/2.670b2d4a.chunk.js.LICENSE.txt": "/t-sne-visualization-tool/static/js/2.670b2d4a.chunk.js.LICENSE.txt",
+    "static/js/runTsne.worker.6c3fcb0a.worker.js": "/t-sne-visualization-tool/static/js/runTsne.worker.6c3fcb0a.worker.js",
+    "static/js/runTsne.worker.6c3fcb0a.worker.js.map": "/t-sne-visualization-tool/static/js/runTsne.worker.6c3fcb0a.worker.js.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7a50b341.js",
+    "static/js/2.670b2d4a.chunk.js",
+    "static/css/main.443465a8.chunk.css",
+    "static/js/main.1acc2943.chunk.js"
+  ]
+}
