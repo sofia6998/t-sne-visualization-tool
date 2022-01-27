@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/t-sne-visualization-tool/static/css/main.443465a8.chunk.css",
-    "main.js": "/t-sne-visualization-tool/static/js/main.1acc2943.chunk.js",
-    "main.js.map": "/t-sne-visualization-tool/static/js/main.1acc2943.chunk.js.map",
-    "runtime-main.js": "/t-sne-visualization-tool/static/js/runtime-main.7a50b341.js",
-    "runtime-main.js.map": "/t-sne-visualization-tool/static/js/runtime-main.7a50b341.js.map",
-    "static/js/2.670b2d4a.chunk.js": "/t-sne-visualization-tool/static/js/2.670b2d4a.chunk.js",
-    "static/js/2.670b2d4a.chunk.js.map": "/t-sne-visualization-tool/static/js/2.670b2d4a.chunk.js.map",
-    "static/js/3.80e0ef1b.chunk.js": "/t-sne-visualization-tool/static/js/3.80e0ef1b.chunk.js",
-    "static/js/3.80e0ef1b.chunk.js.map": "/t-sne-visualization-tool/static/js/3.80e0ef1b.chunk.js.map",
+    "main.css": "/t-sne-visualization-tool/static/css/main.9aae4bdc.chunk.css",
+    "main.js": "/t-sne-visualization-tool/static/js/main.ef357543.chunk.js",
+    "main.js.map": "/t-sne-visualization-tool/static/js/main.ef357543.chunk.js.map",
+    "runtime-main.js": "/t-sne-visualization-tool/static/js/runtime-main.4079a5b3.js",
+    "runtime-main.js.map": "/t-sne-visualization-tool/static/js/runtime-main.4079a5b3.js.map",
+    "static/js/2.0864aa13.chunk.js": "/t-sne-visualization-tool/static/js/2.0864aa13.chunk.js",
+    "static/js/2.0864aa13.chunk.js.map": "/t-sne-visualization-tool/static/js/2.0864aa13.chunk.js.map",
+    "static/js/3.7f631fcc.chunk.js": "/t-sne-visualization-tool/static/js/3.7f631fcc.chunk.js",
+    "static/js/3.7f631fcc.chunk.js.map": "/t-sne-visualization-tool/static/js/3.7f631fcc.chunk.js.map",
     "index.html": "/t-sne-visualization-tool/index.html",
-    "static/css/main.443465a8.chunk.css.map": "/t-sne-visualization-tool/static/css/main.443465a8.chunk.css.map",
-    "static/js/2.670b2d4a.chunk.js.LICENSE.txt": "/t-sne-visualization-tool/static/js/2.670b2d4a.chunk.js.LICENSE.txt",
-    "static/js/runTsne.worker.6c3fcb0a.worker.js": "/t-sne-visualization-tool/static/js/runTsne.worker.6c3fcb0a.worker.js",
-    "static/js/runTsne.worker.6c3fcb0a.worker.js.map": "/t-sne-visualization-tool/static/js/runTsne.worker.6c3fcb0a.worker.js.map"
+    "static/css/main.9aae4bdc.chunk.css.map": "/t-sne-visualization-tool/static/css/main.9aae4bdc.chunk.css.map",
+    "static/js/2.0864aa13.chunk.js.LICENSE.txt": "/t-sne-visualization-tool/static/js/2.0864aa13.chunk.js.LICENSE.txt",
+    "static/js/runTsne.worker.f4604769.worker.js": "/t-sne-visualization-tool/static/js/runTsne.worker.f4604769.worker.js",
+    "static/js/runTsne.worker.f4604769.worker.js.map": "/t-sne-visualization-tool/static/js/runTsne.worker.f4604769.worker.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.7a50b341.js",
-    "static/js/2.670b2d4a.chunk.js",
-    "static/css/main.443465a8.chunk.css",
-    "static/js/main.1acc2943.chunk.js"
+    "static/js/runtime-main.4079a5b3.js",
+    "static/js/2.0864aa13.chunk.js",
+    "static/css/main.9aae4bdc.chunk.css",
+    "static/js/main.ef357543.chunk.js"
   ]
 }
