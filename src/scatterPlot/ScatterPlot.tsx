@@ -1,7 +1,6 @@
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import PlotBuilder from "./PlotBuilder";
 import "./ScatterPlot.css";
-import { IDataRow, IPointsRange } from "../tsneWrapper/TsneWrapper";
 import { usePlotContext } from "../contexts/PlotContext";
 import { throttle } from "../helpers/throttle";
 
@@ -20,17 +19,23 @@ export type DataRow = {
   Y: number,
 }
 export default function ScatterPlot(props: Props): ReactElement {
-  const svgRef = useRef(null);
-  const [data, setData] = useState<DataRow[]>();
   const {
     styleSettings,
-    setStyleSettings,
     originalDfJson,
     tsneParams,
     tsneStepResult,
+    preprocessedDfMetadata,
   } = usePlotContext();
 
+  const [info, setInfo] = useState(undefined);
+  const svgRef = useRef(null);
   const ref = useRef<PlotBuilder>(new PlotBuilder());
+  useEffect(() => {
+    ref.current.on("show-info", (d) => setInfo(d));
+    // ref.current.on("jide-info", () => setInfo(undefined));
+  }, [ref]);
+
+  const [data, setData] = useState<DataRow[]>();
 
   const updateCarData = () => {
     const { points } = tsneStepResult;
@@ -70,10 +75,31 @@ export default function ScatterPlot(props: Props): ReactElement {
 
   useEffect(() => {
     if (data) {
-      ref.current.styleM.setSettings(styleSettings);
+      ref.current.updateStyle(styleSettings);
       ref.current.updateDots(data);
     }
   }, [styleSettings]);
 
-  return <svg ref={svgRef} height={"100%"} />;
+  useEffect(() => {
+    if (preprocessedDfMetadata) {
+      ref.current.updateMetadata(preprocessedDfMetadata);
+    }
+  }, [preprocessedDfMetadata]);
+
+  return <>
+    {info && <div style={{
+      color: "#69b3a2",
+      position: "fixed",
+      pointerEvents: "none",
+      width: "20rem",
+      overflow: "hidden"
+    }}>
+      {Object.entries(info).map(([key, value]) => {
+        return <div>
+          {key}: {JSON.stringify(value)}
+        </div>
+      })}
+    </div>}
+    <svg ref={svgRef} height={"100%"} />
+    </>;
 }

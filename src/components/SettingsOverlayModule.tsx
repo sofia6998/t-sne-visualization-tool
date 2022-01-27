@@ -6,7 +6,10 @@ import BlankButton from "./common/BlankButton";
 import Slider from "./common/Slider";
 import { usePlotContext } from "../contexts/PlotContext";
 import { ITsneParams } from "../tsneWrapper/TsneWrapper";
-import DropDownInput, { DropdownItem } from "./common/DropDownInput";
+import DropDownInput, {
+  EMPTY_DROPDOWN_ITEM,
+  DropdownItem,
+} from "./common/DropDownInput";
 import Input from "./common/Input";
 import ThemeToggle from "./common/ThemeToggle";
 
@@ -35,32 +38,34 @@ const SettingsOverlayModule: React.FC = () => {
 }
 
 const StyleParams: React.FC = () => {
-  const { originalDfJson, styleSettings, setStyleSettings } = usePlotContext();
+  const { preprocessedDfColumns, styleSettings, setStyleSettings } = usePlotContext();
 
   const [dropdownItems, setDropdownItems] = useState<DropdownItem[]>(
-    [{ key: 'No values to choose' }],
+    [EMPTY_DROPDOWN_ITEM],
   );
 
   useEffect(() => {
-    if (!originalDfJson || !originalDfJson.length) {
+    if (!preprocessedDfColumns || !preprocessedDfColumns.length) {
       return;
     }
 
     setDropdownItems(
-      Object
-        .keys(originalDfJson[0])
-        .map((dfKey: string) => ({ key: dfKey }))
+      preprocessedDfColumns.map((dfKey: string) => ({ key: dfKey })),
     );
-  }, [originalDfJson]);
+  }, [preprocessedDfColumns]);
+
+  const getChosenValue = (item: DropdownItem): string => {
+    return item === EMPTY_DROPDOWN_ITEM ? EMPTY_DROPDOWN_ITEM.key : item.key;
+  }
 
   const handleOnChangeColorField = useCallback((item: DropdownItem) => {
-    setStyleSettings({ ...styleSettings, colorField: item.key });
+    setStyleSettings({ ...styleSettings, colorField: getChosenValue(item) });
   }, [styleSettings]);
   const handleOnChangeSizeField = useCallback((item: DropdownItem) => {
-    setStyleSettings({ ...styleSettings, sizeField: item.key });
+    setStyleSettings({ ...styleSettings, sizeField: getChosenValue(item) });
   }, [styleSettings]);
   const handleOnChangeNameField = useCallback((item: DropdownItem) => {
-    setStyleSettings({ ...styleSettings, nameField: item.key });
+    setStyleSettings({ ...styleSettings, nameField: getChosenValue(item) });
   }, [styleSettings]);
   const handleOnChangeOpacity = useCallback((newOpacity: number) => {
     setStyleSettings({ ...styleSettings, opacity: newOpacity });
@@ -75,7 +80,10 @@ const StyleParams: React.FC = () => {
         <div className={styles.paramTitle}>Color Field</div>
         <DropDownInput
           itemsList={dropdownItems}
-          selected={{ key: styleSettings.colorField ?? dropdownItems[0].key }}
+          selected={styleSettings.colorField
+            ? { key: styleSettings.colorField }
+            : EMPTY_DROPDOWN_ITEM
+          }
           onChange={handleOnChangeColorField}
           label="Color Field"
           error=""
@@ -83,7 +91,10 @@ const StyleParams: React.FC = () => {
         <div className={styles.paramTitle}>Size Field</div>
         <DropDownInput
           itemsList={dropdownItems}
-          selected={{ key: styleSettings.sizeField ?? dropdownItems[0].key }}
+          selected={styleSettings.sizeField
+            ? { key: styleSettings.sizeField }
+            : EMPTY_DROPDOWN_ITEM
+          }
           onChange={handleOnChangeSizeField}
           label="Size Field"
           error=""
@@ -92,19 +103,22 @@ const StyleParams: React.FC = () => {
         <Slider
           defaultValue={1}
           max={1}
-          min={0}
+          min={0.01}
           value={styleSettings.opacity ?? 1}
           onChange={handleOnChangeOpacity}
           step={0.01}
         />
-        <div className={styles.paramTitle}>Name Field</div>
-        <DropDownInput
-          itemsList={dropdownItems}
-          selected={{ key: styleSettings.nameField ?? dropdownItems[0].key }}
-          onChange={handleOnChangeNameField}
-          label="Name Field"
-          error=""
-        />
+        {/*<div className={styles.paramTitle}>Name Field</div>*/}
+        {/*<DropDownInput*/}
+        {/*  itemsList={dropdownItems}*/}
+        {/*  selected={styleSettings.nameField*/}
+        {/*    ? { key: styleSettings.nameField } */}
+        {/*    : EMPTY_DROPDOWN_ITEM*/}
+        {/*  }*/}
+        {/*  onChange={handleOnChangeNameField}*/}
+        {/*  label="Name Field"*/}
+        {/*  error=""*/}
+        {/*/>*/}
       </div>
     </>
   );

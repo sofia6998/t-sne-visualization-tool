@@ -21,6 +21,8 @@ type DropDownInputProps = {
   smaller?: boolean;
 };
 
+export const EMPTY_DROPDOWN_ITEM: DropdownItem = { key: 'None' };
+
 const DropDownInput: FC<DropDownInputProps> = (props) => {
   const {
     onChange,
@@ -42,7 +44,12 @@ const DropDownInput: FC<DropDownInputProps> = (props) => {
   }, [isListHidden]);
 
   const renderValueItems = () => {
-    return itemsList.map((it) => (
+    const itemsListWithEmpty: DropdownItem[] = [
+      EMPTY_DROPDOWN_ITEM,
+      ...itemsList,
+    ];
+
+    return itemsListWithEmpty.map((it) => (
       <BlankButton
         className={styles.listItem}
         key={it.key}
@@ -76,10 +83,13 @@ const DropDownInput: FC<DropDownInputProps> = (props) => {
             smaller && styles.smaller
           )}
         >
-          {selected.value || selected.key || ""}
+          {selected.value || selected.key || EMPTY_DROPDOWN_ITEM.key}
           <DropDownIcon className={dropDownIcon} />
         </BlankButton>
-        <div className={dropDownList}>{renderValueItems()}</div>
+
+        <div className={dropDownList}>
+          {renderValueItems()}
+        </div>
       </div>
     );
   };

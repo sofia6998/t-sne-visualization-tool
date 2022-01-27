@@ -8,7 +8,10 @@ import {
   replaceEmptyValues,
   dfToArray,
 } from "../preprocessing";
-import { getDfMetadata } from "../dfMetadata/getDfMetadata";
+import {
+  IRowMetadata,
+  getDfMetadata
+} from "../dfMetadata/getDfMetadata";
 import {
   ITsneParams,
   IDataRow,
@@ -42,6 +45,8 @@ interface PlotState {
   originalDf: IDataFrame<number, IFieldRecord> | null,
   originalDfJson: any[] | null,
   preprocessingState: PreprocessingState,
+  preprocessedDfColumns: string[] | null,
+  preprocessedDfMetadata: IRowMetadata[] | null,
   tsneParams: ITsneParams,
   tsneStepResult: ITsneStepResult,
   styleSettings: StyleSettings,
@@ -85,6 +90,8 @@ export default class PlotContextContainer extends React.Component<
         status: PreprocessingStatus.NOT_PARSED,
         preprocessedDf: null,
       },
+      preprocessedDfColumns: null,
+      preprocessedDfMetadata: null,
       tsneParams: {
         epsilon: 10,
         perplexity: 30,
@@ -100,9 +107,7 @@ export default class PlotContextContainer extends React.Component<
         currentCost: 0,
         points: [],
       },
-      styleSettings: {
-        colorField: "mark",
-      },
+      styleSettings: {} as StyleSettings,
     };
 
     this.funcs = {
@@ -163,11 +168,12 @@ export default class PlotContextContainer extends React.Component<
 
     this.setState(
       {
-        // originalDf: df,
-        // originalDfJson: df.toArray(),
         // TODO: for short demo
         originalDf: (df.endAt(2000) as DataFrame<number, any>),
         originalDfJson: df.endAt(2000).toArray(),
+        // TODO: for full presentation
+        // originalDf: df,
+        // originalDfJson: df.toArray(),
       },
       this.preprocessDataFrame
     );
@@ -202,9 +208,12 @@ export default class PlotContextContainer extends React.Component<
       return;
     }
 
-    const dfData: IDataRow[] = dfToArray(preprocessedDf);
-    getDfMetadata(preprocessedDf);
+    this.setState({
+      preprocessedDfColumns: preprocessedDf.getColumnNames(),
+      preprocessedDfMetadata: getDfMetadata(preprocessedDf)
+    });
 
+    const dfData: IDataRow[] = dfToArray(preprocessedDf);
     const xData: number[] = Array.from(Array(dfData.length).keys());
 
     this.tsneWorker.postMessage({
