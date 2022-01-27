@@ -8,7 +8,8 @@
 }
 .csvButton {
   background: var(--button-color);
-  color: var(--font);
+  color: var(--button-font);
+  border-radius: 6px;
   width: 379px;
   height: 84px;
   outline: none;

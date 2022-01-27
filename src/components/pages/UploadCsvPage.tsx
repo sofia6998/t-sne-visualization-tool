@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect } from "react";
 import { usePlotContext } from "../../contexts/PlotContext";
 import Layout from "../Layout";
 import styles from "./UploadCsvPage.module.scss";
-import Slider from "../Slider";
+import Slider from "../common/Slider";
 
 const UploadCsvPage: React.FC = () => {
 	let fileInputRef: HTMLInputElement | null = null;

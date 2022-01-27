@@ -1,13 +1,11 @@
 import React, { ReactElement, useEffect, useRef, useState } from "react";
-import * as d3 from "d3";
-// @ts-ignore
-import tSneData from '../data/cars_tsne.csv';
 import PlotBuilder from "./PlotBuilder";
 import "./ScatterPlot.css";
+import { IDataRow, IPointsRange } from "../tsneWrapper/TsneWrapper";
 import { usePlotContext } from "../contexts/PlotContext";
 import { throttle } from "../helpers/throttle";
 
-interface Props {}
+interface Props { }
 
 const defaultOptions = {
   width: 600,
@@ -28,49 +26,54 @@ export default function ScatterPlot(props: Props): ReactElement {
     styleSettings,
     setStyleSettings,
     originalDfJson,
-    tsneStepResult
+    tsneParams,
+    tsneStepResult,
   } = usePlotContext();
 
-	const updateCarData = () => {
-		const { points } = tsneStepResult;
+  const ref = useRef<PlotBuilder>(new PlotBuilder());
 
-		const pointsWithCarInfo: DataRow[] = points.map((point) => {
-			const { rowId, xCoord, yCoord } = point;
-			const carInfo = originalDfJson ? originalDfJson[rowId] : undefined;
+  const updateCarData = () => {
+    const { points } = tsneStepResult;
 
-			return (
-				carInfo && {
-					...carInfo,
-					X: xCoord,
-					Y: yCoord,
-				}
-			);
-		}).filter(f => f);
-		setData(pointsWithCarInfo);
-	}
+    const pointsWithCarInfo: DataRow[] = points.map((point) => {
+      const { rowId, xCoord, yCoord } = point;
+      const carInfo = originalDfJson ? originalDfJson[rowId] : undefined;
 
-    useEffect(throttle(() => updateCarData(), 500), [tsneStepResult]);
+      return (
+        carInfo && {
+          ...carInfo,
+          X: xCoord,
+          Y: yCoord,
+        }
+      );
+    }).filter(f => f);
+    setData(pointsWithCarInfo);
+  }
 
-    const ref = useRef<PlotBuilder>(new PlotBuilder());
+  const updateDotsData = (data: DataRow[] | undefined) => {
+    if (data) {
+      ref.current.updateDots(data);
+    }
+  }
 
-    useEffect(() => {
-      setStyleSettings({
-        colorField: 'mark',
-        sizeField: 'availabilitycount',
-        nameField: "model",
-        opacity: 0.3
-      });
-      ref.current.init(svgRef, defaultOptions);
-    	ref.current.updateScales([-25, 20], [-20, 20]);
-      // ref.current.setUpAxis();
-    }, []);
+  useEffect(throttle(() => updateCarData(), 500), [tsneStepResult]);
 
-    useEffect(() => {
-      if (data) {
-      	ref.current.styleM.setSettings(styleSettings);
-        ref.current.updateDots(data);
-      }
-    }, [data, styleSettings]);
+  useEffect(throttle(() => updateDotsData(data), 2000), [data]);
 
-    return <svg ref={svgRef} height={"100%"}/>;
+  useEffect(() => {
+    ref.current.init(svgRef, defaultOptions);
+    ref.current.updateScales(
+      tsneParams.pointsRange.x,
+      tsneParams.pointsRange.y,
+    );
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      ref.current.styleM.setSettings(styleSettings);
+      ref.current.updateDots(data);
+    }
+  }, [styleSettings]);
+
+  return <svg ref={svgRef} height={"100%"} />;
 }

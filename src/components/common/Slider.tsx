@@ -9,11 +9,13 @@ type Props = {
 	min: number;
 	value: number;
 	onChange: (value: number) => void;
+	step?: number;
 }
 const Slider: React.FC<Props> = (props) => {
 	const {
 		defaultValue, disabled,
-		max, min, value, onChange
+		max, min, value, onChange,
+		step
 	} = props;
 
 	return (
@@ -22,6 +24,7 @@ const Slider: React.FC<Props> = (props) => {
 			disabled={disabled}
 			max={max}
 			min={min}
+			step={step ?? 1}
 			value={value}
 			onChange={onChange}
 			className={styles.slider}

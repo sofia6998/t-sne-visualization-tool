@@ -1,4 +1,3 @@
-/* eslint-disable css-modules/no-unused-class */
 import React, { FC, useCallback, useState } from "react";
 import DropDownIcon from "../icons/DropDownIcon";
 import BlankButton from "./BlankButton";
@@ -40,7 +39,7 @@ const DropDownInput: FC<DropDownInputProps> = (props) => {
   const handleSelect = useCallback((item: DropdownItem): void => {
     onChange(item);
     setIsListHidden(true);
-  }, []);
+  }, [isListHidden]);
 
   const renderValueItems = () => {
     return itemsList.map((it) => (
@@ -77,7 +76,7 @@ const DropDownInput: FC<DropDownInputProps> = (props) => {
             smaller && styles.smaller
           )}
         >
-          {selected.value || selected.key}
+          {selected.value || selected.key || ""}
           <DropDownIcon className={dropDownIcon} />
         </BlankButton>
         <div className={dropDownList}>{renderValueItems()}</div>

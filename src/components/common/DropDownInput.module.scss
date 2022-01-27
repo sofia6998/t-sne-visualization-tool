@@ -1,14 +1,21 @@
-@import "../../helpers/mixins.scss";
+// @import "../../helpers/mixins.scss";
 
 .dropDownWrapper {
   display: block;
   position: relative;
   width: 100%;
+  height: 32px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
 }
 
 .dropDownContainer {
-  @include inputField;
+  padding: 0 10px 0 5px;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
 
   &.smaller {
     height: 20px;
@@ -39,19 +46,18 @@
 }
 
 .dropDownList {
-  background: var(--background-color);
+  background: var(--background-light);
   border: 1px solid var(--border-color);
-  box-shadow: var(--box-shadow);
-  border-radius: var(--border-radius);
+  width: 100%;
+  border-radius: 6px;
   display: block;
   padding: 1.25rem 0;
-  box-sizing: border-box;
-  margin-top: 1.5rem;
   position: absolute;
   top: 40px;
-  min-width: 131px;
-  left: 0;
+  max-height: 120px;
+  left: -1px;
   z-index: 2;
+  overflow-y: auto;
 
   &.smaller {
     top: 22px;
@@ -68,10 +74,10 @@
     box-sizing: border-box;
     border-left: 2px solid var(--white);
     justify-content: flex-start;
-    color: var(--font);
+    color: var(--grey-font);
     font-size: 0.875rem;
     line-height: 1.2em;
-    padding-left: 18px;
+    padding-left: 5px;
     margin-bottom: 1.25rem;
     user-select: none;
 
@@ -86,10 +92,10 @@
   }
 }
 
-.dropDownLabel {
-  @include fieldLabel;
-}
+// .dropDownLabel {
+//   @include fieldLabel;
+// }
 
-.errorText {
-  @include fiedlErrorText;
-}
+// .errorText {
+//   @include fiedlErrorText;
+// }

@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 import { DataFrame, fromCSV, IDataFrame, IFieldRecord } from "data-forge";
 import {
   getOriginalDf,
-  parseCorrectTypes,
   dropDefaultColumns,
   dropEmptyColumns,
   encodeStringValues,
+  replaceEmptyValues,
   dfToArray,
 } from "../preprocessing";
+import { getDfMetadata } from "../dfMetadata/getDfMetadata";
 import {
   ITsneParams,
   IDataRow,
@@ -19,10 +20,10 @@ import TsneWorker from 'worker-loader!../runTsne.worker';
 
 export enum PreprocessingStatus {
   NOT_PARSED,
-  PARSING_TYPES,
   REMOVING_DEFAULT_COLUMNS,
   REMOVING_EMPTY_COLUMNS,
   ENCODING_STRING_VALUES,
+  REPLACE_EMPTY_VALUES,
   COMPLETED,
 }
 
@@ -55,11 +56,11 @@ interface PlotFuncs {
 type IPlotContext = PlotState & PlotFuncs;
 
 const PREPROCESSING_PIPELINE: PreprocessingStep[] = [
-  { func: getOriginalDf, statusToChange: PreprocessingStatus.PARSING_TYPES },
-  { func: parseCorrectTypes, statusToChange: PreprocessingStatus.REMOVING_DEFAULT_COLUMNS },
+  { func: getOriginalDf, statusToChange: PreprocessingStatus.REMOVING_DEFAULT_COLUMNS },
   { func: dropDefaultColumns, statusToChange: PreprocessingStatus.REMOVING_EMPTY_COLUMNS },
   { func: dropEmptyColumns, statusToChange: PreprocessingStatus.ENCODING_STRING_VALUES },
-  { func: encodeStringValues, statusToChange: PreprocessingStatus.COMPLETED },
+  { func: encodeStringValues, statusToChange: PreprocessingStatus.REPLACE_EMPTY_VALUES },
+  { func: replaceEmptyValues, statusToChange: PreprocessingStatus.COMPLETED },
 ];
 
 const PlotContext = React.createContext<IPlotContext | any>(null);
@@ -84,19 +85,24 @@ export default class PlotContextContainer extends React.Component<
         status: PreprocessingStatus.NOT_PARSED,
         preprocessedDf: null,
       },
-      // TODO: get params from frontend
       tsneParams: {
         epsilon: 10,
         perplexity: 30,
-        numSteps: 10000,
+        numSteps: 500,
         costThreshold: 11,
+        pointsRange: {
+          x: [-1, 1],
+          y: [-1, 1],
+        },
       },
       tsneStepResult: {
         currentStep: 0,
         currentCost: 0,
         points: [],
       },
-      styleSettings: {},
+      styleSettings: {
+        colorField: "mark",
+      },
     };
 
     this.funcs = {
@@ -114,7 +120,7 @@ export default class PlotContextContainer extends React.Component<
     const onTsneStepCompleted = (stepResult: ITsneStepResult): void => {
       this.setState({ tsneStepResult: stepResult });
     }
-    
+
     this.tsneWorker.onmessage = function (event: MessageEvent<any>) {
       const stepResult = event.data.result as ITsneStepResult;
       onTsneStepCompleted(stepResult);
@@ -153,12 +159,15 @@ export default class PlotContextContainer extends React.Component<
       return;
     }
 
-    const df: DataFrame<number, any> = fromCSV(csvFileText);
+    const df: DataFrame<number, any> = fromCSV(csvFileText, { dynamicTyping: true });
 
     this.setState(
       {
-        originalDf: df,
-        originalDfJson: df.toArray()
+        // originalDf: df,
+        // originalDfJson: df.toArray(),
+        // TODO: for short demo
+        originalDf: (df.endAt(2000) as DataFrame<number, any>),
+        originalDfJson: df.endAt(2000).toArray(),
       },
       this.preprocessDataFrame
     );
@@ -186,7 +195,7 @@ export default class PlotContextContainer extends React.Component<
       );
     });
   }
-  
+
   runTsneSteps = (): void => {
     const { status, preprocessedDf } = this.state.preprocessingState;
     if (status !== PreprocessingStatus.COMPLETED || !preprocessedDf) {
@@ -194,6 +203,8 @@ export default class PlotContextContainer extends React.Component<
     }
 
     const dfData: IDataRow[] = dfToArray(preprocessedDf);
+    getDfMetadata(preprocessedDf);
+
     const xData: number[] = Array.from(Array(dfData.length).keys());
 
     this.tsneWorker.postMessage({

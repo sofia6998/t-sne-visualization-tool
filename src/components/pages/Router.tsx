@@ -9,9 +9,11 @@ export const UPLOAD_CSV = "upload_csv";
 export const GRAPH_VIEW = "graph";
 
 export const Router = (): React.ReactElement => {
-	return <BrowserRouter>
-		<PagePicker />
-	</BrowserRouter>;
+	return (
+		<BrowserRouter>
+			<PagePicker />
+		</BrowserRouter>
+	);
 };
 
 function PagePicker() {

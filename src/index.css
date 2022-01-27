@@ -6,14 +6,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --background: #0E2C38;
-  --background-light: #25404B;
-  --button-color: #F89D39;
-  --font: #FEFEFE;
-  --grey-font: #D3D7D5;
+  /*--background: #34344A;*/
+  /*--background-light: #48485C;*/
 
-  --sub-text: #929D9E;
-  --accent-blue: #97E0CA;
+  /*--font: #7DC2C5;*/
+  /*--grey-font: #B7B6C1;*/
+
+  /*--button-color: #7DC2C5;*/
+  /*--button-font: #FEFEFE;*/
+
+  /*--sub-text: #929D9E;*/
+  /*--accent-blue: #97E0CA;*/
+
+  /*--border-color: #B7B6C1;*/
+
+
+  /*--slider-track: #9CFFFA;*/
+  /*--slider-dot: #7DC2C5;*/
 }
 
 code {

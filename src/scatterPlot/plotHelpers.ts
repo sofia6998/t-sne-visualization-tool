@@ -1,11 +1,11 @@
 import * as d3 from "d3";
 import { ScaleLinear } from "d3-scale";
 import { Line } from "d3";
-import {DataRow} from "./ScatterPlot";
-import {StyleSettings} from "../helpers/types";
+import { DataRow } from "./ScatterPlot";
+import { StyleSettings } from "../helpers/types";
 
 export const DEFAULT_FRAME: Frame = {
-    margin: {top: 10, right: 30, bottom: 30, left: 60},
+    margin: { top: 10, right: 30, bottom: 30, left: 60 },
     width: 460 - 60 - 30,
     height: 400 - 10 - 30
 }
@@ -13,7 +13,7 @@ export const DEFAULT_FRAME: Frame = {
 export type Frame = {
     width: number;
     height: number;
-    margin: {top: number, right: number, bottom: number, left: number},
+    margin: { top: number, right: number, bottom: number, left: number },
 }
 
 export default function formatDataToDots(data: Array<DataRow>): Array<[number, number]> {
@@ -31,17 +31,26 @@ export function scaledLine(
         .curve(d3.curveMonotoneX);
 }
 
-export function* colorGenerator(): Generator<string, string, boolean> {
+export function* colorGenerator(): Generator<string, string, number> {
+    // const colors = ['#FCE694', "#9CFFFA", "#B7B6C1"];
     let deg = 0;
     let step = 360;
+    // @ts-ignore
+    let value = yield null;
     yield getColorByHue(deg);
+    let i = 0;
+    // yield colors[i % 3];
     while (true) {
-        deg+=step;
+        i++;
+        deg += step;
         if (deg >= 360) {
             step = step / 2;
             deg = step / 2;
         }
-        yield getColorByHue(deg);
+        // @ts-ignore
+        let value = yield null;
+        yield getColorByHue(value || deg);
+        // yield colors[i % 3];
     }
 }
 
@@ -54,8 +63,8 @@ export function getRandomColor(): string {
 }
 
 export class ColorManager {
-    private gen: Generator<string, string, boolean>;
-    private map: {[key: string | number]: string};
+    private gen: Generator<string, string, number>;
+    private map: { [key: string | number]: string };
     constructor() {
         this.gen = colorGenerator();
         this.map = {};
@@ -63,14 +72,18 @@ export class ColorManager {
 
     getColor(value: string | number) {
         if (!this.map[value]) {
-            this.map[value] = this.gen.next().value;
+            if (parseInt(value + "") !== NaN) {
+                this.map[value] = this.gen.next(parseInt(value + "")).value;
+            } else {
+                this.map[value] = this.gen.next().value;
+            }
         }
-
         return this.map[value];
     }
 
     reset() {
         this.map = {};
+        this.gen = colorGenerator();
     }
 }
 
@@ -87,25 +100,25 @@ export class StyleManager {
     }
 
     getPointRadius = (d: any) => {
-        const {sizeField} = this.styleSettings;
+        const { sizeField } = this.styleSettings;
         // @ts-ignore
         return (d[sizeField] || 1.51);
     }
 
     getPointText = (d: any) => {
-        const {nameField} = this.styleSettings;
+        const { nameField } = this.styleSettings;
         // @ts-ignore
         return d[nameField];
     }
 
     getPointColor = (d: any) => {
-        const {colorField} = this.styleSettings;
+        const { colorField } = this.styleSettings;
         // @ts-ignore
         return this.colorManager.getColor(d[colorField]);
     }
 
     getPointOpacity = (d: any) => {
-        const {opacity} = this.styleSettings;
+        const { opacity } = this.styleSettings;
         // @ts-ignore
         return opacity || 1;
     }
@@ -113,6 +126,4 @@ export class StyleManager {
     reset = () => {
         this.colorManager.reset();
     }
-
-
 }
