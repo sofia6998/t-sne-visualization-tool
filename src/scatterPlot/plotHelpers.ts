@@ -104,7 +104,7 @@ export class StyleManager {
     value: any
   ): any => {
     if (!field || isEmptyValue(value) || typeof value === 'string') {
-      return value;
+      return type === "size" ? 1.51 : value;
     }
 
     const foundMetadata: IRowMetadata | undefined = this.dfMetadata.find(
