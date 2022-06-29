@@ -1,6 +1,6 @@
 # TSNE visualisation tool for clustering images based on data from intermediate layers from CNN.
 
-##Full system architecture
+## Full system architecture
 
 ![img.png](img.png)
 
