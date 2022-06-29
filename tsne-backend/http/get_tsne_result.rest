@@ -1,0 +1,9 @@
+@hostname = localhost
+@port = 5000
+@api_version = 1
+@req_url = {{hostname}}:{{port}}/api/v{{api_version}}
+@json_file_path = /Users/by-ilya/PythonProjects/tsne-backend/tmp/preprocessed.json
+
+
+# GET /get_tsne_result
+GET http://{{req_url}}/get_tsne_result?json_file_path={{json_file_path}} HTTP/1.1

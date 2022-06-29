@@ -3,4 +3,5 @@ export type StyleSettings = {
   sizeField?: string;
   opacity?: number;
   nameField?: string;
+  imageSize?: number;
 }

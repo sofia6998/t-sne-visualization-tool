@@ -1,0 +1,7 @@
+@hostname = localhost
+@port = 5000
+@api_version = 1
+@req_url = {{hostname}}:{{port}}/api/v{{api_version}}
+
+# GET /ping
+GET http://{{req_url}}/ping HTTP/1.1

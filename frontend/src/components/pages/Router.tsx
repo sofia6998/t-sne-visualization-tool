@@ -17,17 +17,17 @@ export const Router = (): React.ReactElement => {
 };
 
 function PagePicker() {
-	const {preprocessingState} = usePlotContext();
+	const {dots} = usePlotContext();
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	useEffect(() => {
-		if (preprocessingState.status === PreprocessingStatus.COMPLETED) {
+		if (dots) {
 			navigate(GRAPH_VIEW);
 		} else if (location.pathname.includes(GRAPH_VIEW)) {
 			navigate('/');
 		}
-	}, [preprocessingState]);
+	}, [dots]);
 	return (
 		<Routes>
 			<Route path={GRAPH_VIEW + "/*"} element={<TsneGraphView />} />

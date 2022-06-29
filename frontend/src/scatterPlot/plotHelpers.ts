@@ -159,6 +159,10 @@ export class StyleManager {
     return d[nameField];
   }
 
+  getImageSize = () => {
+    return this.styleSettings.imageSize || 20;
+  }
+
   getPointColor = (d: any) => {
     const { colorField } = this.styleSettings;
     // @ts-ignore

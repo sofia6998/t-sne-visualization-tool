@@ -1,0 +1,1 @@
+curl -i -X POST -H "Content-Type: multipart/form-data" -F "csv_file=@/Users/by-ilya/JSProjects/auto-data-ml/data/preprocessed.csv" "http://127.0.0.1:5000/api/v1/tsne?n_components=2&perplexity=40&n_iter=300"

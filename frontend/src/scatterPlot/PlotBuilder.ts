@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import React, { RefObject } from "react";
 import { Selection } from "d3";
 import * as d3 from "d3";
 import { DataRow } from "./ScatterPlot";
@@ -25,7 +25,6 @@ export default class PlotBuilder extends EventEmitter {
   private mainG: Selection<SVGGElement, any, HTMLElement, any> | undefined;
   private xScale = d3.scaleLinear();
   private yScale = d3.scaleLinear();
-  private lineFunction = d3.line();
   private margin = defaultMargin;
   private height = 0;
   private width = 0;
@@ -58,6 +57,7 @@ export default class PlotBuilder extends EventEmitter {
       d3.select('svg g').attr("transform", (e.transform));
       this.svg?.style("stroke-width", 3 / Math.sqrt(e.transform.k));
       this.svg?.selectAll("circle").attr("r", (d) => this.styleM.getPointRadius(d) / Math.sqrt(e.transform.k));
+      this.svg?.selectAll("image").attr("width", (d) => this.styleM.getImageSize() / Math.sqrt(e.transform.k));
       this.svg?.selectAll(`.${DOT_CLASS} text`).style("font-size", 5 / Math.sqrt(e.transform.k));
     });
 
@@ -73,31 +73,29 @@ export default class PlotBuilder extends EventEmitter {
       .scaleLinear()
       .domain([yRange[0], yRange[1]])
       .range([this.height, this.margin.bottom]);
-    this.lineFunction = scaledLine(this.xScale, this.yScale);
   }
 
   remove(selector: string): void {
     this.svg?.selectAll(selector).remove();
   }
 
-  updateDots(
-    data: Array<DataRow>,
-  ): void {
+  updateDots(data: Array<DataRow>): void {
     this.remove("." + DOT_CLASS);
     const gDots = this.mainG?.selectAll(DOT_CLASS)
       .data(data)
       .enter()
       .append('g')
       .attr("class", DOT_CLASS);
-    gDots?.append("circle")
-      .attr("cx", (d) => {
-        return this.xScale(d.X)
-      }).on("mouseover", this.handleMouseOver)
+
+    const IMAGES_PATH = "http://127.0.0.1:8080/images/";
+    gDots?.append("image")
+        .attr("x", (d) => {
+          return this.xScale(d.X)
+        }).on("mouseover", this.handleMouseOver)
         .on("mouseout", this.handleMouseOut)
-      .attr("cy", (d) => { return this.yScale(d.Y) })
-      .attr("r", this.styleM.getPointRadius)
-      .style("opacity", this.styleM.getPointOpacity)
-      .style("fill", this.styleM.getPointColor);
+        .attr("y", (d) => { return this.yScale(d.Y) })
+        .attr("width", this.styleM.getImageSize())
+        .attr("href", (d) => IMAGES_PATH + d.image);
   }
 
   setUpAxis(): void {

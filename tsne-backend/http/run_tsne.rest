@@ -1,0 +1,8 @@
+@hostname = localhost
+@port = 5000
+@api_version = 1
+@req_url = {{hostname}}:{{port}}/api/v{{api_version}}
+
+
+# POST /run_tsne
+POST http://{{req_url}}/run_tsne HTTP/1.1

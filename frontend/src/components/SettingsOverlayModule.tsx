@@ -29,7 +29,7 @@ const SettingsOverlayModule: React.FC = () => {
       </BlankButton>
       <div className={classNames(styles.settingsContainer, open && styles.opened)}>
         <ThemeToggle />
-        <TSneParams />
+        {/*<TSneParams />*/}
         <StyleParams />
       </div>
     </>
@@ -38,21 +38,21 @@ const SettingsOverlayModule: React.FC = () => {
 }
 
 const StyleParams: React.FC = () => {
-  const { preprocessedDfColumns, styleSettings, setStyleSettings } = usePlotContext();
+  const { dots, styleSettings, setStyleSettings } = usePlotContext();
 
   const [dropdownItems, setDropdownItems] = useState<DropdownItem[]>(
     [EMPTY_DROPDOWN_ITEM],
   );
 
-  useEffect(() => {
-    if (!preprocessedDfColumns || !preprocessedDfColumns.length) {
-      return;
-    }
-
-    setDropdownItems(
-      preprocessedDfColumns.map((dfKey: string) => ({ key: dfKey })),
-    );
-  }, [preprocessedDfColumns]);
+  // useEffect(() => {
+  //   if (!preprocessedDfColumns || !preprocessedDfColumns.length) {
+  //     return;
+  //   }
+  //
+  //   setDropdownItems(
+  //     preprocessedDfColumns.map((dfKey: string) => ({ key: dfKey })),
+  //   );
+  // }, [dots]);
 
   const getChosenValue = (item: DropdownItem): string => {
     return item === EMPTY_DROPDOWN_ITEM ? EMPTY_DROPDOWN_ITEM.key : item.key;
@@ -70,6 +70,9 @@ const StyleParams: React.FC = () => {
   const handleOnChangeOpacity = useCallback((newOpacity: number) => {
     setStyleSettings({ ...styleSettings, opacity: newOpacity });
   }, [styleSettings]);
+  const handleOnChangeSize = useCallback((newImageSize: number) => {
+    setStyleSettings({...styleSettings, imageSize: newImageSize});
+  },[styleSettings]);
 
   return (
     <>
@@ -108,6 +111,15 @@ const StyleParams: React.FC = () => {
           onChange={handleOnChangeOpacity}
           step={0.01}
         />
+        <div className={styles.paramTitle}>Image size</div>
+        <Slider
+            defaultValue={20}
+            max={50}
+            min={1}
+            value={styleSettings.imageSize ?? 20}
+            onChange={handleOnChangeSize}
+            step={0.01}
+        />
         {/*<div className={styles.paramTitle}>Name Field</div>*/}
         {/*<DropDownInput*/}
         {/*  itemsList={dropdownItems}*/}
@@ -124,66 +136,66 @@ const StyleParams: React.FC = () => {
   );
 }
 
-const TSneParams: React.FC = () => {
-  const { tsneParams, setTsneParams } = usePlotContext();
-
-  const [epsilon, setEpsilon] = useState(tsneParams.epsilon);
-  const [perplexity, setPerplexity] = useState(tsneParams.perplexity);
-  const [numSteps, setNumSteps] = useState(tsneParams.numSteps);
-  const [costThreshold, setCostThreshold] = useState(tsneParams.costThreshold);
-
-  const handleOnClickRefitButton = () => {
-    setTsneParams({
-      ...tsneParams,
-      epsilon,
-      perplexity,
-      numSteps,
-      costThreshold,
-    } as ITsneParams);
-  }
-
-  return <>
-    <div className={styles.filterTitle}>
-      T-SNE parameters
-    </div>
-    <div className={styles.paramsGrid}>
-      <div className={styles.paramTitle}>Epsilon</div>
-      <Slider
-        defaultValue={50}
-        max={100}
-        min={0}
-        value={epsilon}
-        onChange={setEpsilon}
-        step={0.5}
-      />
-      <div className={styles.paramTitle}>Perplexity</div>
-      <Slider
-        defaultValue={50}
-        max={100}
-        min={0}
-        value={perplexity}
-        onChange={setPerplexity}
-      />
-      <div className={styles.paramTitle}>Steps number</div>
-      <Input value={numSteps}
-             onChange={(v) => setNumSteps(parseInt(v))}/>
-      <div className={styles.paramTitle}>Cost threshold</div>
-      <Slider
-        defaultValue={50}
-        max={100}
-        min={1}
-        value={costThreshold}
-        onChange={setCostThreshold}
-        step={0.5}
-      />
-
-      <BlankButton
-        className={styles.refitButton}
-        onClick={handleOnClickRefitButton}
-      >
-        Refit
-      </BlankButton>
-    </div>
-  </>
-}
+// const TSneParams: React.FC = () => {
+//   const { tsneParams, setTsneParams } = usePlotContext();
+//
+//   const [epsilon, setEpsilon] = useState(tsneParams.epsilon);
+//   const [perplexity, setPerplexity] = useState(tsneParams.perplexity);
+//   const [numSteps, setNumSteps] = useState(tsneParams.numSteps);
+//   const [costThreshold, setCostThreshold] = useState(tsneParams.costThreshold);
+//
+//   const handleOnClickRefitButton = () => {
+//     setTsneParams({
+//       ...tsneParams,
+//       epsilon,
+//       perplexity,
+//       numSteps,
+//       costThreshold,
+//     } as ITsneParams);
+//   }
+//
+//   return <>
+//     <div className={styles.filterTitle}>
+//       T-SNE parameters
+//     </div>
+//     <div className={styles.paramsGrid}>
+//       <div className={styles.paramTitle}>Epsilon</div>
+//       <Slider
+//         defaultValue={50}
+//         max={100}
+//         min={0}
+//         value={epsilon}
+//         onChange={setEpsilon}
+//         step={0.5}
+//       />
+//       <div className={styles.paramTitle}>Perplexity</div>
+//       <Slider
+//         defaultValue={50}
+//         max={100}
+//         min={0}
+//         value={perplexity}
+//         onChange={setPerplexity}
+//       />
+//       <div className={styles.paramTitle}>Steps number</div>
+//       <Input value={numSteps}
+//              onChange={(v) => setNumSteps(parseInt(v))}/>
+//       <div className={styles.paramTitle}>Cost threshold</div>
+//       <Slider
+//         defaultValue={50}
+//         max={100}
+//         min={1}
+//         value={costThreshold}
+//         onChange={setCostThreshold}
+//         step={0.5}
+//       />
+//
+//       <BlankButton
+//         className={styles.refitButton}
+//         onClick={handleOnClickRefitButton}
+//       >
+//         Refit
+//       </BlankButton>
+//     </div>
+//   </>
+// }
 export default SettingsOverlayModule;

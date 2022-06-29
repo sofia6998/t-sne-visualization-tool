@@ -1,0 +1,13 @@
+id,year,clearance,carclass,height,length,doorscount,width,fuelconsumption,bodytype,power,cost,availabilitycount,photo,mark,model,dB_at_idle,dB_at_50kmh,dB_at_80kmh,dB_at_100kmh,dB_at_120kmh,dB_at_140kmh,X,Y
+659,2018,152,B,1498,4068,5,1756,-1,HATCHBACK_5_DOORS,85,1000000,1,http://avatars.mds.yandex.net/get-verba/1540742/2a0000016ac0129a51d8ef11bcd2261bdaa6/cattouchret,Ford,Fiesta,,,,,,,15.73472,8.284495
+1333,2018,180,J,1565,4135,5,1765,-1,ALLROAD_5_DOORS,117,1700000,1,http://avatars.mds.yandex.net/get-verba/937147/2a000001609d66b55d07a1bae26afdeb748f/cattouchret,Nissan,Juke,,,,,,,17.976168,4.079154
+1356,2017,155,B,1540,4140,5,1705,-1,HATCHBACK_5_DOORS,79,1100000,1,http://avatars.mds.yandex.net/get-verba/1672712/2a0000016f43b6f76daa5da04d2c6223e4dc/cattouchret,Nissan,Note,,,,,,,15.232948,7.002596
+1366,2017,200,J,1783,5042,5,1961,-1,ALLROAD_5_DOORS,284,1800000,1,http://avatars.mds.yandex.net/get-verba/787013/2a000001609356b48db6acb7c5aebed8a241/cattouchret,Nissan,Pathfinder,,,,,,,-10.255813,-10.490628
+1379,2020,200,J,1624,4394,5,1806,-1,ALLROAD_5_DOORS,115,2100000,8,http://avatars.mds.yandex.net/get-verba/1030388/2a0000016096a5ad5930ff11f911fd4a4b74/cattouchret,Nissan,Qashqai,,,,,,,12.402165,-1.00233
+1402,2013,150,C,1535,4295,5,1695,-1,HATCHBACK_5_DOORS,110,650000,2,http://avatars.mds.yandex.net/get-verba/787013/2a000001609d51442c2f32ba4137d067c1ed/cattouchret,Nissan,Tiida,,,,,,,6.3153324,7.718368
+688,2019,135,C,1452,4647,4,1825,-1,SEDAN,100,1300000,2,http://avatars.mds.yandex.net/get-verba/937147/2a0000016ffbbb0f0140d930c0448202630f/cattouchret,Ford,Focus,,,,,,,-3.933085,4.201795
+705,2019,185,J,1678,4614,5,1883,-1,ALLROAD_5_DOORS,120,1900000,5,http://avatars.mds.yandex.net/get-verba/1030388/2a0000016fd2cceed4aed4ed7fec9d60f6c2/cattouchret,Ford,Kuga,,,,,,,6.044773,-10.9992895
+719,2019,128,D,1482,4871,4,1852,-1,SEDAN,187,1900000,1,http://avatars.mds.yandex.net/get-verba/216201/2a0000016fdd1aa26e2fde4c7c76dcdedf54/cattouchret,Ford,Mondeo,,,,,,,-14.374508,7.476797
+744,2012,150,C,1435,4545,4,1755,-1,SEDAN,142,900000,1,http://avatars.mds.yandex.net/get-verba/787013/2a000001609cfdeaf3b1e6ccf67be5a51e4c/cattouchret,Honda,Civic,,,,,,,0.26124707,2.174032
+600,2012,135,A,1520,3595,5,1595,-1,HATCHBACK_5_DOORS,70,200000,4,http://avatars.mds.yandex.net/get-verba/997355/2a0000017af6b729c7da35552df5f612be69/cattouchret,Daewoo,Matiz,,,,,,,10.373469,18.096657
+1011,2018,161,A,1495,3595,5,1595,-1,HATCHBACK_5_DOORS,84,900000,10,http://avatars.mds.yandex.net/get-verba/937147/2a00000161c1821611ca63d3e3ce8fa0fec4/cattouchret,Kia,Picanto,,,,,,,10.37294,18.137777

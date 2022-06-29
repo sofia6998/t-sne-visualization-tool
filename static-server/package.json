@@ -1,0 +1,12 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://sofia6998.github.io/t-sne-visualization-tool/",
+  "dependencies": {
+    "http-server": "14.1.0"
+  },
+  "scripts": {
+    "start": "http-server ./data --cors"
+  }
+}

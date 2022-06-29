@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useRef, useState } from "react";
+import React, {ReactElement, useEffect, useMemo, useRef, useState} from "react";
 import PlotBuilder from "./PlotBuilder";
 import "./ScatterPlot.css";
 import { usePlotContext } from "../contexts/PlotContext";
@@ -13,21 +13,21 @@ const defaultOptions = {
   margin: { top: 10, left: 30, bottom: 10, right: 10 },
 };
 
+const IMAGES = "http://127.0.0.1:8080/images/";
 export type DataRow = {
   [key: string]: number | string;
+  image: string,
   X: number,
   Y: number,
 }
 export default function ScatterPlot(props: Props): ReactElement {
   const {
     styleSettings,
-    originalDfJson,
-    tsneParams,
-    tsneStepResult,
-    preprocessedDfMetadata,
+    dots,
+    images
   } = usePlotContext();
 
-  const [info, setInfo] = useState(undefined);
+  const [info, setInfo] = useState<DataRow | undefined>(undefined);
   const svgRef = useRef(null);
   const ref = useRef<PlotBuilder>(new PlotBuilder());
   useEffect(() => {
@@ -35,25 +35,19 @@ export default function ScatterPlot(props: Props): ReactElement {
     // ref.current.on("jide-info", () => setInfo(undefined));
   }, [ref]);
 
-  const [data, setData] = useState<DataRow[]>();
-
-  const updateCarData = () => {
-    const { points } = tsneStepResult;
-
-    const pointsWithCarInfo: DataRow[] = points.map((point) => {
-      const { rowId, xCoord, yCoord } = point;
-      const carInfo = originalDfJson ? originalDfJson[rowId] : undefined;
-
-      return (
-        carInfo && {
-          ...carInfo,
-          X: xCoord,
-          Y: yCoord,
+  const data: DataRow[] = useMemo(() => {
+    const pointsWithImages = dots?.map(([x,y], i) => {
+      return (images && {
+          image: images[i],
+          X: x,
+          Y: y,
         }
       );
-    }).filter(f => f);
-    setData(pointsWithCarInfo);
-  }
+    }) || [];
+    return pointsWithImages.filter(f => f) as DataRow[];
+  }, [dots, images]);
+
+  console.log(data);
 
   const updateDotsData = (data: DataRow[] | undefined) => {
     if (data) {
@@ -61,15 +55,13 @@ export default function ScatterPlot(props: Props): ReactElement {
     }
   }
 
-  useEffect(throttle(() => updateCarData(), 500), [tsneStepResult]);
-
-  useEffect(throttle(() => updateDotsData(data), 2000), [data]);
+  useEffect(throttle(() => updateDotsData(data), 2000), [data, styleSettings]);
 
   useEffect(() => {
     ref.current.init(svgRef, defaultOptions);
-    ref.current.updateScales(
-      tsneParams.pointsRange.x,
-      tsneParams.pointsRange.y,
+    ref.current.updateScales([-100, 100], [-100, 100]
+      // tsneParams.pointsRange.x,
+      // tsneParams.pointsRange.y,
     );
   }, []);
 
@@ -80,25 +72,27 @@ export default function ScatterPlot(props: Props): ReactElement {
     }
   }, [styleSettings]);
 
-  useEffect(() => {
-    if (preprocessedDfMetadata) {
-      ref.current.updateMetadata(preprocessedDfMetadata);
-    }
-  }, [preprocessedDfMetadata]);
+  // useEffect(() => {
+  //   if (preprocessedDfMetadata) {
+  //     ref.current.updateMetadata(preprocessedDfMetadata);
+  //   }
+  // }, [preprocessedDfMetadata]);
 
   return <>
     {info && <div style={{
       color: "#69b3a2",
       position: "fixed",
-      pointerEvents: "none",
+      // pointerEvents: "none",
       width: "20rem",
       overflow: "hidden"
     }}>
+      <a href={IMAGES + info.image}>link</a>
       {Object.entries(info).map(([key, value]) => {
         return <div>
           {key}: {JSON.stringify(value)}
         </div>
       })}
+      <img src={IMAGES + info.image} width="300" height="300"/>
     </div>}
     <svg ref={svgRef} height={"100%"} />
     </>;
