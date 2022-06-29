@@ -17,7 +17,9 @@ This projects contains all but feature extraction components.
 ## Clusterization result samples
 
 Results based on the output of ResNet and Yolo CNN networks.
+
 ![img_1.png](img_1.png)
+
 ![img_2.png](img_2.png)
 
 
